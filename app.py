@@ -56,9 +56,14 @@ def post_update(uuid):
             update_note(uuid, note_data)
             return redirect('/notes')
         except:
-            return "При редактировании заметки произошла ошибка"
+            return redirect('/update_error')
     else:
         return render_template('note_update.html', note=note)
+
+
+@app.route('/update_error')
+def update_error():
+    return render_template('update_error.html')
 
 
 @app.route('/create_note', methods=['POST', 'GET'])
@@ -70,9 +75,14 @@ def create_post():
             note = create_note(title=note_data['title'], content=note_data['content'])
             return redirect(url_for('post_about', uuid=note.uuid))
         except:
-            return "При добавлении заметки произошла ошибка"
+            return redirect('/create_error')
     else:
         return render_template('create_note.html')
+
+
+@app.route('/create_error')
+def create_error():
+    return render_template('create_error.html')
 
 
 @app.route('/note_access', methods=['POST', 'GET'])
@@ -83,14 +93,14 @@ def note_access():
             note = get_note(uuid)
             return redirect(url_for('post_detail', uuid=note.uuid))
         except:
-            return redirect('/id')
+            return redirect('/id_error')
     else:
         return render_template('note_access.html')
 
 
-@app.route('/id')
-def id_id():
-    return render_template('id_id.html')
+@app.route('/id_error')
+def id_error():
+    return render_template('id_error.html')
 
 
 if __name__ == "__main__":
