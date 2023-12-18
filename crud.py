@@ -1,4 +1,4 @@
-from sqlalchemy import select, desc, update
+from sqlalchemy import select, desc, update, delete
 from models import Note, session
 
 
@@ -10,8 +10,11 @@ def get_note(uuid: str) -> Note:
 
 def delete_note(uuid: str) -> None:
     with session() as conn:
-        note = conn.query(Note).get(uuid)
-        conn.delete(note)
+        stmt = (
+            delete(Note).
+            where(Note.uuid == uuid)
+        )
+        conn.execute(stmt)
         conn.commit()
         # return note
 

@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for, request, redirect
 from crud import get_note, create_note, get_notes, delete_note, update_note
+import time
 
 app = Flask(__name__)
 
@@ -82,9 +83,14 @@ def note_access():
             note = get_note(uuid)
             return redirect(url_for('post_detail', uuid=note.uuid))
         except:
-            return "Не верный id"
+            return redirect('/id')
     else:
         return render_template('note_access.html')
+
+
+@app.route('/id')
+def id_id():
+    return render_template('id_id.html')
 
 
 if __name__ == "__main__":
